@@ -1,48 +1,66 @@
-# ShopSphere Analytics Warehouse – Reporting Requirements
+# ShopSphere Analytics Warehouse – Source System Analysis
 
 ## 1. Purpose
 
-The purpose of this document is to define the reporting and analytical requirements for the ShopSphere Analytics Warehouse.
+The purpose of this document is to analyze the source datasets used by the ShopSphere Analytics Warehouse.
 
-The reporting layer will transform warehouse data into meaningful business insights through SQL analytical queries, KPI calculations, analytical views, and Power BI dashboards.
+The source system analysis provides an understanding of:
 
-The reporting requirements are derived from the business and stakeholder requirements defined during Phase 1.
+- Source datasets
+- Business purpose of each dataset
+- Important columns
+- Business keys
+- Relationships between datasets
+- Data dependencies
+- Potential data quality issues
+- Analytical relevance
 
----
-
-# 2. Reporting Objectives
-
-The reporting solution should enable business users to:
-
-- Monitor overall business performance.
-- Track sales and revenue trends.
-- Analyze customer behavior.
-- Evaluate product and category performance.
-- Monitor seller performance.
-- Analyze payment activity.
-- Monitor order and delivery performance.
-- Analyze geographic performance.
-- Monitor customer reviews and ratings.
-- Compare performance across different time periods.
-- Identify trends and business opportunities.
+This analysis will serve as the foundation for the Raw Layer, Staging Layer, Data Warehouse, and analytical model.
 
 ---
 
-# 3. Reporting Architecture
+# 2. Source System Overview
 
-The reporting solution will follow the architecture:
+ShopSphere receives its source data in the form of CSV files representing different operational areas of the e-commerce business.
+
+The primary source datasets are:
+
+1. Customers
+2. Sellers
+3. Products
+4. Orders
+5. Order Items
+6. Payments
+7. Reviews
+8. Geolocation
+
+The source data represents different aspects of the e-commerce transaction lifecycle.
+
+---
+
+# 3. Source Architecture
+
+The source data follows the following logical flow:
 
 ```text
-Source Data
-     ↓
-Raw Layer
-     ↓
-Staging Layer
-     ↓
-Transformation Layer
-     ↓
-Data Warehouse
-     ↓
-Analytics Layer
-     ↓
-Power BI
+Customer
+    │
+    │
+    ▼
+Order ──────────────── Customer
+    │
+    │
+    ├──────── Order Items ─────── Product
+    │                              │
+    │                              │
+    │                              ▼
+    │                            Seller
+    │
+    ├──────── Payments
+    │
+    └──────── Reviews ───────── Product
+
+Customer / Seller / Location
+            │
+            ▼
+       Geolocation
